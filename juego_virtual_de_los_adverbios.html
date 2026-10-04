@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡El Gran Desafío de los Adverbios! - 6to Grado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastel: {
+                            pink: '#FFB6C1',
+                            pinkLight: '#FFF0F5',
+                            pinkDark: '#FF6B8B',
+                            lilac: '#E6E6FA',
+                            lilacMedium: '#D8BFD8',
+                            lilacDark: '#9370DB',
+                            yellow: '#FFF9C4',
+                            yellowDark: '#F59E0B',
+                            bg: '#FAF5FF'
+                        }
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        nunito: ['Nunito', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #FAF5FF;
+            background-image: radial-gradient(#E6E6FA 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+        }
+        .title-font {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .card-shadow {
+            box-shadow: 0 12px 30px -8px rgba(147, 112, 219, 0.15), 0 6px 12px -4px rgba(255, 182, 193, 0.2);
+        }
+        .btn-bounce {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-bounce:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(147, 112, 219, 0.2);
+        }
+        .btn-bounce:active {
+            transform: translateY(1px) scale(0.98);
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+        .animate-pulse-subtle {
+            animation: pulse-subtle 2.5s infinite ease-in-out;
+        }
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+        .animate-float {
+            animation: float-gentle 3s infinite ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .animate-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800">
+
+    <!-- Header Navbar -->
+    <header class="bg-white/90 backdrop-blur-md border-b-4 border-pastel-lilacMedium sticky top-0 z-30 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showScreen('main-menu')">
+                <!-- Illustrated Teacher Avatar - Bright Agency Editorial Style -->
+                <div class="w-12 h-12 bg-pink-100 rounded-full border-2 border-pink-300 flex items-center justify-center shadow-md overflow-hidden relative p-1">
+                    <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" fill="#FCE7F3"/>
+                        <circle cx="50" cy="42" r="22" fill="#FBCFE8"/>
+                        <path d="M28 38C28 24 38 18 50 18C62 18 72 24 72 38C72 40 68 35 50 35C32 35 28 40 28 38Z" fill="#831843"/>
+                        <circle cx="43" cy="42" r="3" fill="#831843"/>
+                        <circle cx="57" cy="42" r="3" fill="#831843"/>
+                        <path d="M45 50Q50 54 55 50" stroke="#831843" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                        <!-- Glasses -->
+                        <circle cx="43" cy="42" r="7" stroke="#BE185D" stroke-width="2" fill="none"/>
+                        <circle cx="57" cy="42" r="7" stroke="#BE185D" stroke-width="2" fill="none"/>
+                        <line x1="50" y1="42" x2="50" y2="42" stroke="#BE185D" stroke-width="2"/>
+                        <path d="M25 88C25 72 36 65 50 65C64 65 75 72 75 88V100H25V88Z" fill="#9333EA"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="title-font text-xl md:text-2xl font-bold text-purple-900 leading-none">Los Adverbios</h1>
+                    <p class="text-xs text-pink-600 font-bold tracking-wide mt-0.5">Mtra. Zita Guadalupe Perea González 🌸</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="flex items-center bg-amber-100 text-amber-900 px-3.5 py-1.5 rounded-full font-bold text-sm border border-amber-200 shadow-inner">
+                    <span class="mr-1.5 text-base">⭐</span> <span id="total-stars">0</span> Puntos
+                </div>
+                <button id="sound-btn" onclick="toggleAudio()" class="w-10 h-10 bg-purple-50 hover:bg-purple-100 rounded-full flex items-center justify-center text-xl transition-colors border border-purple-200">
+                    🔊
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- SCREEN 1: Main Menu -->
+        <section id="main-menu" class="space-y-6">
+            <!-- Banner / Welcome in Pastel Palette -->
+            <div class="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-200 rounded-3xl p-6 md:p-8 text-slate-800 card-shadow relative overflow-hidden flex flex-col md:flex-row items-center justify-between border-2 border-white">
+                <div class="space-y-3 z-10 max-w-lg text-center md:text-left">
+                    <span class="bg-white/70 text-purple-900 text-xs font-extrabold uppercase tracking-widest px-3.5 py-1 rounded-full backdrop-blur-sm border border-purple-200">
+                        🌸 Aventura Gramatical
+                    </span>
+                    <h2 class="title-font text-3xl md:text-4xl font-extrabold text-purple-950 leading-tight">
+                        ¡Aprende e identifica los Adverbios jugando!
+                    </h2>
+                    <p class="text-purple-900 font-medium text-sm md:text-base">
+                        Practica las palabras que modifican al verbo, adjetivo u otro adverbio en tus oraciones.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3 justify-center md:justify-start">
+                        <button onclick="startMode('reto')" class="btn-bounce bg-amber-300 hover:bg-amber-400 text-purple-950 title-font font-bold px-6 py-3.5 rounded-2xl shadow-md border-2 border-amber-100 transition-all flex items-center gap-2 text-lg">
+                            🚀 ¡El Reto Final!
+                        </button>
+                        <button onclick="showScreen('study-screen')" class="btn-bounce bg-white/80 hover:bg-white text-purple-900 title-font font-bold px-5 py-3.5 rounded-2xl border-2 border-purple-200 shadow-sm transition-all flex items-center gap-2">
+                            📖 ¡Repasa el tema!
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Teacher Illustration Real Image -->
+                <div class="mt-6 md:mt-0 z-10 flex justify-center">
+                    <div class="w-44 h-44 md:w-52 md:h-52 bg-white/80 rounded-full flex items-center justify-center backdrop-blur-md border-4 border-white shadow-lg animate-float overflow-hidden p-3">
+                        <!-- Storybook Illustrated Magic Book & Sparkles (Children's Publishing Style) -->
+                        <svg class="w-full h-full" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="100" cy="100" r="90" fill="#FAF5FF"/>
+                            <path d="M30 135C55 125 85 130 100 142C115 130 145 125 170 135V70C145 58 115 63 100 75C85 63 55 58 30 70V135Z" fill="#DDD6FE" stroke="#7C3AED" stroke-width="4" stroke-linejoin="round"/>
+                            <path d="M100 75V142" stroke="#7C3AED" stroke-width="4"/>
+                            <!-- Book Pages -->
+                            <path d="M40 85C60 78 82 82 95 90M40 100C60 93 82 97 95 105M40 115C60 108 82 112 95 120" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M160 85C140 78 118 82 105 90M160 100C140 93 118 97 105 105M160 115C140 108 118 112 105 120" stroke="#8B5CF6" stroke-width="3" stroke-linecap="round"/>
+                            <!-- Whimsical Characters / Stars Floating -->
+                            <path d="M100 32L104 44L116 48L104 52L100 64L96 52L84 48L96 44Z" fill="#F59E0B"/>
+                            <path d="M45 42L48 50L56 53L48 56L45 64L42 56L34 53L42 50Z" fill="#EC4899"/>
+                            <path d="M155 45L157 52L164 54L157 56L155 63L153 56L146 54L153 52Z" fill="#10B981"/>
+                            <circle cx="100" cy="22" r="6" fill="#F43F5E"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Selection with Pastel Colors -->
+            <div>
+                <h3 class="title-font text-2xl font-bold text-purple-950 mb-4 flex items-center gap-2">
+                    🎯 Elige un Tipo de Adverbio <span class="text-sm font-semibold text-purple-600">(10 ejercicios cada uno)</span>
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="categories-grid">
+                    <!-- Dynamic rendering of category buttons -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: Study Guide / Repasa Screen -->
+        <section id="study-screen" class="hidden space-y-6">
+            <div class="flex items-center justify-between bg-white p-4 rounded-3xl card-shadow border-2 border-pink-100">
+                <button onclick="showScreen('main-menu')" class="flex items-center gap-2 text-purple-700 hover:text-purple-900 font-bold bg-purple-50 px-4 py-2 rounded-2xl transition-colors">
+                    ← Volver al Menú
+                </button>
+                <h2 class="title-font text-xl font-bold text-purple-900">📖 Guía de Repaso: Los Adverbios</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Slide 1 Concept -->
+                <div class="bg-gradient-to-br from-pink-50 to-purple-50 p-6 rounded-3xl card-shadow border-2 border-pink-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-3xl bg-pink-200 p-2 rounded-2xl">🔍</span>
+                            <h3 class="title-font text-xl font-bold text-pink-700">¿Qué es un Adverbio?</h3>
+                        </div>
+                        <p class="text-slate-700 leading-relaxed font-medium">
+                            Un adverbio es una palabra que <strong>modifica o completa</strong> el significado de un <em>verbo</em>, un <em>adjetivo</em> o incluso otro <em>adverbio</em>.
+                        </p>
+                        <div class="mt-4 bg-white p-4 rounded-2xl border-2 border-pink-200 shadow-sm">
+                            <p class="font-bold text-purple-900">Ejemplo:</p>
+                            <p class="text-lg text-pink-600 font-extrabold mt-1">"Ana corre <span class="underline underline-offset-4 decoration-pink-400">rápidamente</span>."</p>
+                            <p class="text-xs text-slate-500 mt-1 font-semibold">💡 <em>rápidamente</em> nos dice <strong>CÓMO</strong> corre Ana.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 Questions -->
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-3xl card-shadow border-2 border-purple-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-3xl bg-purple-200 p-2 rounded-2xl">❓</span>
+                        <h3 class="title-font text-xl font-bold text-purple-800">¿Qué información nos dan?</h3>
+                    </div>
+                    <ul class="space-y-2.5 text-sm font-semibold text-slate-700">
+                        <li class="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-purple-100"><span class="bg-pink-100 px-2 py-1 rounded-lg text-pink-700 font-bold">¿Cómo?</span> Modo</li>
+                        <li class="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-purple-100"><span class="bg-purple-100 px-2 py-1 rounded-lg text-purple-700 font-bold">¿Cuándo?</span> Tiempo</li>
+                        <li class="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-purple-100"><span class="bg-blue-100 px-2 py-1 rounded-lg text-blue-700 font-bold">¿Dónde?</span> Lugar</li>
+                        <li class="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-purple-100"><span class="bg-amber-100 px-2 py-1 rounded-lg text-amber-800 font-bold">¿Cuánto?</span> Cantidad</li>
+                        <li class="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-purple-100"><span class="bg-emerald-100 px-2 py-1 rounded-lg text-emerald-700 font-bold">¿Con qué seguridad?</span> Afirmación / Negación / Duda</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 3 Category Cheat Sheet in Pastels -->
+            <div class="bg-white p-6 rounded-3xl card-shadow border-2 border-purple-200">
+                <h3 class="title-font text-xl font-bold text-purple-900 mb-4 flex items-center gap-2">
+                    ⭐ Clasificación Didáctica Completa
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                    <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                        <p class="font-bold text-blue-900 mb-1">📍 Lugar</p>
+                        <p class="text-slate-600 font-medium">aquí, ahí, allí, cerca, lejos, arriba, abajo, dentro, fuera.</p>
+                    </div>
+                    <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                        <p class="font-bold text-emerald-900 mb-1">⏰ Tiempo</p>
+                        <p class="text-slate-600 font-medium">hoy, ayer, mañana, antes, después, luego, pronto, tarde, temprano, siempre, nunca, ahora.</p>
+                    </div>
+                    <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                        <p class="font-bold text-amber-900 mb-1">🏃 Modo</p>
+                        <p class="text-slate-600 font-medium">bien, mal, rápido, lentamente, cuidadosamente, fácilmente.</p>
+                    </div>
+                    <div class="p-4 bg-pink-50 rounded-2xl border border-pink-100">
+                        <p class="font-bold text-pink-900 mb-1">📊 Cantidad</p>
+                        <p class="text-slate-600 font-medium">mucho, poco, bastante, demasiado, más, menos, casi.</p>
+                    </div>
+                    <div class="p-4 bg-teal-50 rounded-2xl border border-teal-100">
+                        <p class="font-bold text-teal-900 mb-1">✅ Afirmación</p>
+                        <p class="text-slate-600 font-medium">sí, también, ciertamente, efectivamente.</p>
+                    </div>
+                    <div class="p-4 bg-rose-50 rounded-2xl border border-rose-100">
+                        <p class="font-bold text-rose-900 mb-1">🚫 Negación</p>
+                        <p class="text-slate-600 font-medium">no, nunca, jamás, tampoco.</p>
+                    </div>
+                    <div class="p-4 bg-purple-50 rounded-2xl border border-purple-100 sm:col-span-2 lg:col-span-1">
+                        <p class="font-bold text-purple-900 mb-1">❓ Duda</p>
+                        <p class="text-slate-600 font-medium">quizá, quizás, acaso, probablemente, posiblemente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: Exercise Game Engine -->
+        <section id="game-screen" class="hidden space-y-6">
+            <!-- Game Bar Header -->
+            <div class="bg-white p-4 rounded-3xl card-shadow flex flex-wrap justify-between items-center gap-3 border-2 border-pink-100">
+                <button onclick="confirmExit()" class="text-slate-500 hover:text-rose-600 font-bold text-sm flex items-center gap-1 bg-slate-100 hover:bg-rose-50 px-3 py-1.5 rounded-xl transition-colors">
+                    ✖ Salir
+                </button>
+                <div class="flex-grow max-w-xs mx-4">
+                    <div class="flex justify-between text-xs font-bold text-purple-900 mb-1">
+                        <span id="game-category-title">Categoría</span>
+                        <span>Ejercicio <span id="current-q-num">1</span>/10</span>
+                    </div>
+                    <div class="w-full bg-pink-100 h-3.5 rounded-full overflow-hidden p-0.5 border border-pink-200">
+                        <div id="progress-bar" class="bg-gradient-to-r from-pink-400 to-purple-500 h-full rounded-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+                <div class="bg-purple-100 text-purple-900 px-3.5 py-1.5 rounded-2xl text-xs font-bold flex items-center gap-1 border border-purple-200">
+                    🔥 Racha: <span id="streak-counter">0</span>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 card-shadow border-2 border-purple-100 flex flex-col md:flex-row items-center gap-6 relative">
+                
+                <!-- Sticker / Graphic Illustration Box (Without revealing answers) -->
+                <div class="w-full md:w-2/5 h-56 bg-gradient-to-b from-pink-50 to-purple-50 rounded-2xl flex flex-col items-center justify-center p-4 text-center border-2 border-pink-200 relative overflow-hidden shadow-inner" id="illustration-container">
+                    <!-- Dynamic Graphic Sticker Rendered Here (NO ANSWER TEXT BELOW IT) -->
+                </div>
+
+                <!-- Exercise Content -->
+                <div class="w-full md:w-3/5 space-y-4">
+                    <div class="inline-block bg-pink-100 text-pink-800 text-xs font-extrabold px-3.5 py-1.5 rounded-full uppercase tracking-wider border border-pink-200" id="question-tag">
+                        Selecciona el Adverbio
+                    </div>
+
+                    <h3 class="title-font text-xl md:text-2xl font-bold text-purple-950 leading-snug" id="question-text">
+                        Cargando pregunta...
+                    </h3>
+
+                    <!-- Options Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2" id="options-container">
+                        <!-- Options dynamically injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: Category Completion Summary -->
+        <section id="results-screen" class="hidden space-y-6 text-center py-6">
+            <div class="bg-white rounded-3xl p-8 card-shadow max-w-xl mx-auto space-y-6 border-4 border-pink-200 relative overflow-hidden">
+                <div class="w-28 h-28 mx-auto bg-pink-100 rounded-full flex items-center justify-center border-4 border-pink-300 shadow-md" id="result-sticker">
+                    <!-- Dynamic celebration sticker -->
+                </div>
+                <div>
+                    <h2 class="title-font text-3xl font-extrabold text-purple-950" id="result-title">¡Misión Cumplida!</h2>
+                    <p class="text-slate-600 font-semibold mt-1" id="result-subtitle">Has completado esta serie de ejercicios.</p>
+                </div>
+
+                <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-6 rounded-2xl flex justify-around items-center border border-pink-200 shadow-inner">
+                    <div>
+                        <p class="text-xs text-purple-800 uppercase font-extrabold">Aciertos</p>
+                        <p class="title-font text-3xl font-black text-purple-700" id="result-score">10 / 10</p>
+                    </div>
+                    <div class="h-10 w-0.5 bg-pink-200"></div>
+                    <div>
+                        <p class="text-xs text-purple-800 uppercase font-extrabold">Estrellas</p>
+                        <p class="title-font text-3xl font-black text-amber-500" id="result-stars">+50 ⭐</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                    <button onclick="showScreen('main-menu')" class="btn-bounce bg-purple-600 hover:bg-purple-700 text-white title-font font-bold px-6 py-3.5 rounded-2xl shadow-md transition-all">
+                        🏠 Menú Principal
+                    </button>
+                    <button id="retry-btn" onclick="retryCurrentCategory()" class="btn-bounce bg-pink-100 hover:bg-pink-200 text-pink-800 title-font font-bold px-6 py-3.5 rounded-2xl border border-pink-300 transition-all">
+                        🔄 Repetir Ejercicios
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FEEDBACK MODAL with Custom Minnie Stickers and Phrases -->
+    <div id="feedback-modal" class="fixed inset-0 bg-purple-950/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div id="feedback-card" class="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full text-center card-shadow border-4 transition-all transform scale-95 opacity-0">
+            
+            <!-- Avatar Sticker Container -->
+            <div id="feedback-avatar-container" class="w-28 h-28 mx-auto mb-3 flex items-center justify-center">
+                <!-- SVG Avatar Sticker injected dynamically -->
+            </div>
+
+            <h3 id="feedback-title" class="title-font text-2xl font-bold mb-2">¡Felicidades! 🎉</h3>
+            
+            <p id="feedback-msg" class="text-slate-600 font-semibold text-sm mb-6">
+                ¡Lo hiciste increíble! Encontraste el adverbio correcto.
+            </p>
+
+            <button id="feedback-next-btn" onclick="closeFeedback()" class="btn-bounce w-full bg-purple-600 hover:bg-purple-700 text-white title-font font-bold py-3.5 px-6 rounded-2xl shadow-lg transition-all text-lg">
+                Continuar ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white/80 border-t border-purple-100 py-4 text-center text-xs font-semibold text-purple-900 mt-8">
+        <p>Creado por la Mtra. Zita Guadalupe Perea González 🌸</p>
+    </footer>
+
+    <script>
+        // Audio Synthesizer
+        let audioEnabled = true;
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function playSound(type) {
+            if (!audioEnabled) return;
+            try {
+                if (!audioCtx) audioCtx = new AudioCtx();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3); // A5
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                } else if (type === 'incorrect') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                    osc.frequency.exponentialRampToValueAtTime(130, audioCtx.currentTime + 0.4); // C3
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                } else if (type === 'win') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const noteOsc = audioCtx.createOscillator();
+                        const noteGain = audioCtx.createGain();
+                        noteOsc.connect(noteGain);
+                        noteGain.connect(audioCtx.destination);
+                        noteOsc.frequency.value = freq;
+                        noteGain.gain.setValueAtTime(0.2, audioCtx.currentTime + idx * 0.1);
+                        noteGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + idx * 0.1 + 0.25);
+                        noteOsc.start(audioCtx.currentTime + idx * 0.1);
+                        noteOsc.stop(audioCtx.currentTime + idx * 0.1 + 0.25);
+                    });
+                }
+            } catch(e) {}
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            document.getElementById('sound-btn').innerText = audioEnabled ? '🔊' : '🔇';
+        }
+
+        const CATEGORIES = {
+            lugar: {
+                title: "Adverbios de Lugar",
+                icon: "📍",
+                color: "from-pink-200 to-purple-200",
+                bgColor: "bg-pink-50",
+                description: "Responden a la pregunta ¿Dónde?",
+                questions: [
+                    { sentence: "Mi mochila escolar está _____ de la mesa.", options: ["aquí", "ayer", "mucho", "no"], answer: "aquí", hint: "Expresa lugar cercano", icon: "🎒" },
+                    { sentence: "El parque con cancha de fútbol está _____.", options: ["lejos", "temprano", "bastante", "quizá"], answer: "lejos", hint: "Indica gran distancia", icon: "🏞️" },
+                    { sentence: "Guarda todos tus juguetes _____ de la caja.", options: ["dentro", "mañana", "lentamente", "sí"], answer: "dentro", hint: "En la parte interior", icon: "📦" },
+                    { sentence: "Los pájaros vuelan alto, allá _____.", options: ["arriba", "después", "poco", "jamás"], answer: "arriba", hint: "En la parte superior", icon: "🦅" },
+                    { sentence: "Gatito duerme cómodamente _____ de la cama.", options: ["abajo", "hoy", "también", "acaso"], answer: "abajo", hint: "Parte inferior", icon: "🐱" },
+                    { sentence: "La tienda de útiles queda muy _____ de mi casa.", options: ["cerca", "pronto", "más", "tampoco"], answer: "cerca", hint: "A poca distancia", icon: "🏫" },
+                    { sentence: "Dejaremos los balones de básquetbol _____.", options: ["allí", "siempre", "bien", "no"], answer: "allí", hint: "En ese punto", icon: "🏀" },
+                    { sentence: "Los niños juegan alegremente _____ en el patio.", options: ["fuera", "tarde", "demasiado", "probablemente"], answer: "fuera", hint: "En el exterior", icon: "🏃" },
+                    { sentence: "Mi hermana dejó los cuadernos _____.", options: ["ahí", "ayer", "fácilmente", "sí"], answer: "ahí", hint: "Lugar cercano al interlocutor", icon: "📚" },
+                    { sentence: "El avión pasó volando por _____ de las nubes.", options: ["encima", "nunca", "menos", "quizás"], answer: "encima", hint: "Sobre algo", icon: "✈️" }
+                ]
+            },
+            tiempo: {
+                title: "Adverbios de Tiempo",
+                icon: "⏰",
+                color: "from-purple-200 to-indigo-200",
+                bgColor: "bg-purple-50",
+                description: "Responden a la pregunta ¿Cuándo?",
+                questions: [
+                    { sentence: "_____ tenemos clase especial de Educación Física.", options: ["Hoy", "Aquí", "Mucho", "Ciertamente"], answer: "Hoy", hint: "El día presente", icon: "🏃‍♂️" },
+                    { sentence: "El autobús escolar llegará _____.", options: ["después", "dentro", "casi", "tampoco"], answer: "después", hint: "En un tiempo posterior", icon: "🚌" },
+                    { sentence: "_____ fuimos a la excursión del museo de ciencias.", options: ["Ayer", "Cerca", "Lentamente", "Probablemente"], answer: "Ayer", hint: "El día anterior", icon: "🏛️" },
+                    { sentence: "_____ realizaremos el examen de historia.", options: ["Mañana", "Abajo", "Bastante", "Jamás"], answer: "Mañana", hint: "El día subsiguiente", icon: "📅" },
+                    { sentence: "Debes lavarte las manos _____ de comer.", options: ["antes", "fuera", "mal", "no"], answer: "antes", hint: "Prioridad temporal", icon: "🧼" },
+                    { sentence: "La película de animación va a comenzar _____.", options: ["pronto", "allí", "menos", "quizá"], answer: "pronto", hint: "En poco tiempo", icon: "🎬" },
+                    { sentence: "El estudiante estudioso _____ cumple con su tarea.", options: ["siempre", "lejos", "rápidamente", "tampoco"], answer: "siempre", hint: "En todo momento", icon: "📝" },
+                    { sentence: "Me levanté muy _____ para no perder el camión.", options: ["temprano", "arriba", "demasiado", "sí"], answer: "temprano", hint: "A primera hora", icon: "⏰" },
+                    { sentence: "_____ estamos aprendiendo los adverbios en clase.", options: ["Ahora", "Fuera", "Poco", "Acaso"], answer: "Ahora", hint: "En el momento actual", icon: "👩‍🏫" },
+                    { sentence: "_____ se rinde un buen atleta en la carrera.", options: ["Nunca", "Ahí", "Cuidadosamente", "Efectivamente"], answer: "Nunca", hint: "En ningún momento", icon: "🥇" }
+                ]
+            },
+            modo: {
+                title: "Adverbios de Modo",
+                icon: "🏃",
+                color: "from-amber-100 to-pink-200",
+                bgColor: "bg-amber-50",
+                description: "Responden a la pregunta ¿Cómo?",
+                questions: [
+                    { sentence: "La atleta Ana corre muy _____.", options: ["rápidamente", "mañana", "cerca", "no"], answer: "rápidamente", hint: "Con gran velocidad", icon: "🏃‍♀️" },
+                    { sentence: "El equipo de 6to grado jugó muy _____ y ganó.", options: ["bien", "ayer", "allí", "quizá"], answer: "bien", hint: "De buena manera", icon: "⚽" },
+                    { sentence: "El alumno escribió su ensayo _____.", options: ["cuidadosamente", "hoy", "arriba", "tampoco"], answer: "cuidadosamente", hint: "Con mucha atención", icon: "✏️" },
+                    { sentence: "La tortuga avanza _____ en la pista.", options: ["lentamente", "después", "dentro", "sí"], answer: "lentamente", hint: "A poca velocidad", icon: "🐢" },
+                    { sentence: "Resolvió la trivia de matemáticas _____.", options: ["fácilmente", "pronto", "lejos", "nunca"], answer: "fácilmente", hint: "Sin dificultad", icon: "🧮" },
+                    { sentence: "El perezoso caminó _____ hasta el árbol.", options: ["despacio", "siempre", "aquí", "quizás"], answer: "despacio", hint: "Con calma", icon: "🦥" },
+                    { sentence: "Cantaron _____ durante el festival escolar.", options: ["alegremente", "ahora", "abajo", "tampoco"], answer: "alegremente", hint: "Con entusiasmo", icon: "🎤" },
+                    { sentence: "El perrito ladró _____ al ver al desconocido.", options: ["fuertemente", "antes", "fuera", "no"], answer: "fuertemente", hint: "Con volumen elevado", icon: "🐶" },
+                    { sentence: "Si no lees bien las instrucciones, harás _____ el trabajo.", options: ["mal", "temprano", "cerca", "probablemente"], answer: "mal", hint: "De forma incorrecta", icon: "📄" },
+                    { sentence: "Explicó su proyecto escolar _____.", options: ["claramente", "mañana", "dentro", "jamás"], answer: "claramente", hint: "De forma transparente", icon: "🗣️" }
+                ]
+            },
+            cantidad: {
+                title: "Adverbios de Cantidad",
+                icon: "📊",
+                color: "from-pink-200 to-yellow-100",
+                bgColor: "bg-pink-50",
+                description: "Responden a la pregunta ¿Cuánto?",
+                questions: [
+                    { sentence: "El niño comió _____ helado y le dolió la panza.", options: ["demasiado", "hoy", "rápidamente", "sí"], answer: "demasiado", hint: "En exceso", icon: "🍦" },
+                    { sentence: "En la biblioteca leí _____ libros este mes.", options: ["muchos", "lejos", "cuidadosamente", "no"], answer: "muchos", hint: "Gran número", icon: "📚" },
+                    { sentence: "Comí _____ verduras en el almuerzo.", options: ["poco", "ayer", "ahí", "quizá"], answer: "poco", hint: "Escasa cantidad", icon: "🥦" },
+                    { sentence: "Estudié _____ para el examen de español.", options: ["bastante", "arriba", "lentamente", "jamás"], answer: "bastante", hint: "Suficiente cantidad", icon: "💯" },
+                    { sentence: "Quiero _____ agua para calmar mi sed.", options: ["más", "después", "fuera", "tampoco"], answer: "más", hint: "Cantidad superior", icon: "💧" },
+                    { sentence: "Hoy tenemos _____ tarea que la semana pasada.", options: ["menos", "mañana", "aquí", "ciertamente"], answer: "menos", hint: "Menor volumen", icon: "📖" },
+                    { sentence: "El velocista _____ llega a la meta en primer lugar.", options: ["casi", "temprano", "dentro", "no"], answer: "casi", hint: "Por muy poco", icon: "🏁" },
+                    { sentence: "Ese pastel de chocolate es _____ sabroso.", options: ["muy", "siempre", "abajo", "quizás"], answer: "muy", hint: "Intensidad elevada", icon: "🎂" },
+                    { sentence: "El estadio estaba _____ lleno de aficionados.", options: ["completamente", "antes", "lejos", "tampoco"], answer: "completamente", hint: "En su totalidad", icon: "🏟️" },
+                    { sentence: "Nos queda _____ tiempo para terminar el dibujo.", options: ["algo", "ahora", "bien", "no"], answer: "algo", hint: "Cierta porción", icon: "🎨" }
+                ]
+            },
+            afirmacion: {
+                title: "Adverbios de Afirmación",
+                icon: "✅",
+                color: "from-teal-100 to-purple-200",
+                bgColor: "bg-teal-50",
+                description: "Sirven para asegurar o confirmar",
+                questions: [
+                    { sentence: "_____ iré al paseo de la escuela el viernes.", options: ["Sí", "No", "Ayer", "Poco"], answer: "Sí", hint: "Respuesta afirmativa", icon: "🚌" },
+                    { sentence: "Mi amigo Carlos _____ participará en la obra.", options: ["también", "nunca", "lejos", "quizás"], answer: "también", hint: "Acuerdo / inclusión", icon: "🎭" },
+                    { sentence: "_____ el equipo merecía ganar el campeonato.", options: ["Ciertamente", "Jamás", "Abajo", "Poco"], answer: "Ciertamente", hint: "Con seguridad", icon: "🏆" },
+                    { sentence: "_____ terminamos la maqueta a tiempo.", options: ["Efectivamente", "Tampoco", "Mañana", "Lentamente"], answer: "Efectivamente", hint: "Realidad confirmada", icon: "🛠️" },
+                    { sentence: "_____ es una buena idea estudiar en grupo.", options: ["Sin duda", "No", "Fuera", "Menos"], answer: "Sin duda", hint: "Certeza absoluta", icon: "👥" },
+                    { sentence: "_____ que aprobaremos el curso escolar.", options: ["Seguro", "Jamás", "Allí", "Casi"], answer: "Seguro", hint: "Confianza", icon: "🎓" },
+                    { sentence: "El profesor dijo que _____ habrá concurso.", options: ["también", "nunca", "atrás", "poco"], answer: "también", hint: "Confirmación adicional", icon: "📖" },
+                    { sentence: "_____ vendrán mis tíos a la graduación.", options: ["Asimismo", "Tampoco", "Ayer", "Menos"], answer: "Asimismo", hint: "De la misma manera", icon: "🎉" },
+                    { sentence: "_____ la Tierra gira alrededor del Sol.", options: ["Verdaderamente", "Jamás", "Lejos", "Quizá"], answer: "Verdaderamente", hint: "Con verdad", icon: "🌍" },
+                    { sentence: "—¿Harás tu tarea? —_____, en este momento.", options: ["Desde luego", "Nunca", "Fuera", "Poco"], answer: "Desde luego", hint: "Por supuesto que sí", icon: "✍️" }
+                ]
+            },
+            negacion: {
+                title: "Adverbios de Negación",
+                icon: "🚫",
+                color: "from-rose-200 to-pink-200",
+                bgColor: "bg-rose-50",
+                description: "Sirven para negar certezas",
+                questions: [
+                    { sentence: "_____ tengo tarea pendiente para el fin de semana.", options: ["No", "Sí", "Hoy", "Mucho"], answer: "No", hint: "Negación rotunda", icon: "📝" },
+                    { sentence: "_____ he olvidado la lección del maestro.", options: ["Nunca", "Siempre", "Cerca", "Bastante"], answer: "Nunca", hint: "Jamás en el tiempo", icon: "💡" },
+                    { sentence: "_____ volveré a mentirle a mis padres.", options: ["Jamás", "También", "Arriba", "Mucho"], answer: "Jamás", hint: "Negación categórica", icon: "🤝" },
+                    { sentence: "Si tú no vas al parque, yo _____ iré.", options: ["tampoco", "sí", "temprano", "fácilmente"], answer: "tampoco", hint: "Igual negatividad", icon: "🚶" },
+                    { sentence: "_____ me gusta la sopa fría de verduras.", options: ["Para nada", "Ciertamente", "Aquí", "Mucho"], answer: "Para nada", hint: "Rechazo total", icon: "🥣" },
+                    { sentence: "_____ es posible cruzar con luz roja.", options: ["De ninguna manera", "Seguro", "Mañana", "Bien"], answer: "De ninguna manera", hint: "Imposibilidad", icon: "🚦" },
+                    { sentence: "El perro _____ salió al patio hoy.", options: ["no", "también", "dentro", "muy"], answer: "no", hint: "Acción no realizada", icon: "🐶" },
+                    { sentence: "Ese truco de magia _____ falló.", options: ["nunca", "siempre", "lejos", "poco"], answer: "nunca", hint: "Sin ninguna falla", icon: "🪄" },
+                    { sentence: "Yo _____ pude resolver el problema tan rápido.", options: ["tampoco", "efectivamente", "arriba", "más"], answer: "tampoco", hint: "Misma imposibilidad", icon: "🤔" },
+                    { sentence: "El autobús _____ se detuvo en esa parada.", options: ["jamás", "sí", "ahora", "bastante"], answer: "jamás", hint: "Sin ocurrir jamás", icon: "🚌" }
+                ]
+            },
+            duda: {
+                title: "Adverbios de Duda",
+                icon: "❓",
+                color: "from-purple-200 to-lilacDark",
+                bgColor: "bg-purple-50",
+                description: "Expresan incertidumbre o posibilidad",
+                questions: [
+                    { sentence: "_____ llueva por la tarde, lleva tu paraguas.", options: ["Quizá", "Sí", "Nunca", "Mucho"], answer: "Quizá", hint: "Incertidumbre o posibilidad", icon: "🌧️" },
+                    { sentence: "_____ vayamos al cine este fin de semana.", options: ["Probablemente", "No", "Ayer", "Lentamente"], answer: "Probablemente", hint: "Posibilidad elevada", icon: "🍿" },
+                    { sentence: "_____ terminemos el proyecto antes del recreo.", options: ["Quizás", "Ciertamente", "Cerca", "Tampoco"], answer: "Quizás", hint: "Incertidumbre", icon: "⏰" },
+                    { sentence: "_____ ganemos el concurso de declamación.", options: ["Acaso", "Jamás", "Mañana", "Bien"], answer: "Acaso", hint: "Duda o hipótesis", icon: "🎤" },
+                    { sentence: "_____ venga mi primo de visita hoy.", options: ["Posiblemente", "Sí", "Lejos", "Nunca"], answer: "Posiblemente", hint: "Puede ser", icon: "🏡" },
+                    { sentence: "_____ apruebe todas las materias con diez.", options: ["Tal vez", "Tampoco", "Ayer", "Menos"], answer: "Tal vez", hint: "Incertidumbre positiva", icon: "📑" },
+                    { sentence: "_____ la maestra nos deje salir más temprano.", options: ["Quizá", "Siempre", "Dentro", "No"], answer: "Quizá", hint: "Posibilidad", icon: "🔔" },
+                    { sentence: "_____ compremos la pelota de vóleibol.", options: ["Probablemente", "Jamás", "Allí", "Mal"], answer: "Probablemente", hint: "Opción probable", icon: "🏐" },
+                    { sentence: "_____ viaja este verano con sus abuelos.", options: ["Posiblemente", "Nunca", "Abajo", "Mucho"], answer: "Posiblemente", hint: "Plan en duda", icon: "🧳" },
+                    { sentence: "_____ nos encontremos en la biblioteca más tarde.", options: ["Acaso", "Efectivamente", "Ayer", "Poco"], answer: "Acaso", hint: "Posible encuentro", icon: "📖" }
+                ]
+            }
+        };
+
+        const HAPPY_PHRASES = [
+            "¡Felicidades! 🎉 ¡Excelente trabajo!",
+            "¡Muy bien hecho! ⭐ ¡Eres genial!",
+            "¡Impresionante! 🚀 ¡Sigue así!",
+            "¡Fantástico! 🏆 ¡Dominas los adverbios!",
+            "¡Correcto! 🌟 ¡Tienes una mente brillante!"
+        ];
+
+        const SAD_PHRASES = [
+            "¡Muy triste! 😢 Vuelve a intentar.",
+            "¡Oh no! 🥺 Revisa la pregunta de nuevo.",
+            "¡Casi lo logras! 💔 ¡Tú puedes, inténtalo!",
+            "¡No te rindas! 🤔 ¡Piensa en la pista!",
+            "¡Ánimo! 🧐 ¡Vuelve a intentar con muchas ganas!"
+        ];
+
+        let currentMode = null;
+        let currentQuestionIndex = 0;
+        let activeQuestions = [];
+        let sessionScore = 0;
+        let currentStreak = 0;
+        let totalStars = parseInt(localStorage.getItem('adverbios_stars_zita') || '0');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStarDisplay();
+            renderCategoryGrid();
+        });
+
+        function updateStarDisplay() {
+            document.getElementById('total-stars').innerText = totalStars;
+            localStorage.setItem('adverbios_stars_zita', totalStars);
+        }
+
+        function showScreen(screenId) {
+            ['main-menu', 'study-screen', 'game-screen', 'results-screen'].forEach(id => {
+                const el = document.getElementById(id);
+                if (id === screenId) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderCategoryGrid() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = '';
+
+            Object.keys(CATEGORIES).forEach(key => {
+                const cat = CATEGORIES[key];
+                const card = document.createElement('div');
+                card.className = `btn-bounce bg-white p-5 rounded-3xl card-shadow border-2 border-pink-100 flex flex-col justify-between cursor-pointer transition-all hover:border-purple-300`;
+                card.onclick = () => startMode(key);
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-3xl bg-pink-50 p-2.5 rounded-2xl border border-pink-100">${cat.icon}</span>
+                            <span class="text-xs font-bold text-purple-700 bg-purple-50 border border-purple-100 px-2.5 py-1 rounded-full">10 ejerc.</span>
+                        </div>
+                        <h4 class="title-font text-lg font-bold text-purple-950">${cat.title}</h4>
+                        <p class="text-xs font-medium text-slate-500 mt-1">${cat.description}</p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-purple-50 flex items-center justify-between text-xs font-extrabold text-pink-600">
+                        <span>Practicar ahora</span>
+                        <span>➔</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function startMode(modeKey) {
+            currentMode = modeKey;
+            currentQuestionIndex = 0;
+            sessionScore = 0;
+            currentStreak = 0;
+
+            if (modeKey === 'reto') {
+                let allQs = [];
+                Object.keys(CATEGORIES).forEach(k => {
+                    CATEGORIES[k].questions.forEach(q => {
+                        allQs.push({ ...q, categoryName: CATEGORIES[k].title });
+                    });
+                });
+                allQs.sort(() => Math.random() - 0.5);
+                activeQuestions = allQs.slice(0, 10);
+                document.getElementById('game-category-title').innerText = "🚀 Reto Final";
+            } else {
+                const cat = CATEGORIES[modeKey];
+                activeQuestions = cat.questions.map(q => ({ ...q, categoryName: cat.title }));
+                document.getElementById('game-category-title').innerText = cat.title;
+            }
+
+            document.getElementById('streak-counter').innerText = currentStreak;
+            showScreen('game-screen');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = activeQuestions[currentQuestionIndex];
+            
+            // Progress Bar
+            const progressPct = ((currentQuestionIndex) / activeQuestions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPct}%`;
+            document.getElementById('current-q-num').innerText = currentQuestionIndex + 1;
+
+            // Question Elements
+            document.getElementById('question-tag').innerText = q.categoryName || "Identifica el Adverbio";
+            
+            const sentenceHTML = q.sentence.replace('_____', `<span class="inline-block px-4 py-1 mx-1 bg-yellow-200 border-b-4 border-yellow-400 rounded-lg text-purple-950 font-extrabold animate-pulse">?</span>`);
+            document.getElementById('question-text').innerHTML = sentenceHTML;
+
+            // Illustration Box: Renders single centered large icon
+            const illContainer = document.getElementById('illustration-container');
+            illContainer.innerHTML = `
+                <div class="flex items-center justify-center w-full h-full">
+                    <div class="text-7xl md:text-8xl animate-bounce drop-shadow-md select-none">${q.icon || "📝"}</div>
+                </div>
+            `;
+
+            // Options
+            const options = [...q.options].sort(() => Math.random() - 0.5);
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `btn-bounce bg-purple-50/60 hover:bg-purple-600 hover:text-white border-2 border-purple-200 font-bold py-3.5 px-4 rounded-2xl text-purple-950 text-base md:text-lg transition-all text-center flex items-center justify-center shadow-sm`;
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(opt, q.answer, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function getImageElement(type) {
+            if (type === 'happy') {
+                return `<svg class="w-full h-full drop-shadow-md" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Cute Kawaii Star Character for Success -->
+                    <!-- Star Body -->
+                    <path d="M60 10L73.5 37.3L103.6 41.7L81.8 63L86.9 93L60 78.8L33.1 93L38.2 63L16.4 41.7L46.5 37.3L60 10Z" fill="#FFE066" stroke="#F59E0B" stroke-width="3.5" stroke-linejoin="round"/>
+                    
+                    <!-- Cute Pink Bow on top head -->
+                    <path d="M48 20C44 14 36 18 42 24C48 26 52 23 52 23C52 23 52 28 58 26C64 24 60 16 54 20C50 22 48 20 48 20Z" fill="#FF85A1"/>
+                    <circle cx="50" cy="22" r="3" fill="#FF477E"/>
+
+                    <!-- Shiny Anime Eyes -->
+                    <ellipse cx="46" cy="50" rx="5.5" ry="7" fill="#2B1E3A"/>
+                    <ellipse cx="74" cy="50" rx="5.5" ry="7" fill="#2B1E3A"/>
+                    <!-- White Sparkle Highlights -->
+                    <circle cx="44" cy="47" r="2.5" fill="white"/>
+                    <circle cx="48" cy="52" r="1.2" fill="white"/>
+                    <circle cx="72" cy="47" r="2.5" fill="white"/>
+                    <circle cx="76" cy="52" r="1.2" fill="white"/>
+
+                    <!-- Rosy Cheeks -->
+                    <ellipse cx="38" cy="57" rx="6" ry="4" fill="#FF85A1" opacity="0.85"/>
+                    <ellipse cx="82" cy="57" rx="6" ry="4" fill="#FF85A1" opacity="0.85"/>
+
+                    <!-- Happy Cute Mouth -->
+                    <path d="M52 58Q60 67 68 58" stroke="#2B1E3A" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+                    <!-- Floating Mini Sparkles & Hearts -->
+                    <path d="M22 25L24 19L26 25L32 27L26 29L24 35L22 29L16 27Z" fill="#FFB703"/>
+                    <path d="M96 22C96 22 100 18 103 21C106 24 102 28 96 32C90 28 86 24 89 21C92 18 96 22 96 22Z" fill="#FF477E"/>
+                </svg>`;
+            } else if (type === 'crying' || type === 'sad') {
+                return `<svg class="w-full h-full drop-shadow-md" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Super Sweet Encouraging Kawaii Bunny / Cloud Character for Try Again -->
+                    <circle cx="60" cy="65" r="42" fill="#E2D9F3" stroke="#9D4EDD" stroke-width="3.5"/>
+                    
+                    <!-- Bunny Ears -->
+                    <path d="M42 28C35 10 48 6 52 24" fill="#E2D9F3" stroke="#9D4EDD" stroke-width="3.5"/>
+                    <path d="M44 26C39 14 47 11 50 23" fill="#FFC6FF"/>
+                    <path d="M78 28C85 10 72 6 68 24" fill="#E2D9F3" stroke="#9D4EDD" stroke-width="3.5"/>
+                    <path d="M76 26C81 14 73 11 70 23" fill="#FFC6FF"/>
+
+                    <!-- Encouraging Eyes -->
+                    <path d="M42 58C44 54 50 54 52 58" stroke="#3A0CA3" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                    <path d="M68 58C70 54 76 54 78 58" stroke="#3A0CA3" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+                    <!-- Cute Blushing Cheeks -->
+                    <ellipse cx="38" cy="64" rx="5.5" ry="3.5" fill="#FF85A1" opacity="0.8"/>
+                    <ellipse cx="82" cy="64" rx="5.5" ry="3.5" fill="#FF85A1" opacity="0.8"/>
+
+                    <!-- Soft Pout / O-mouth -->
+                    <ellipse cx="60" cy="68" rx="4" ry="5" fill="#3A0CA3"/>
+
+                    <!-- Little Encouraging Band-aid or Star on cheek -->
+                    <rect x="28" y="68" width="12" height="6" rx="2" transform="rotate(-15 28 68)" fill="#FFD166" stroke="#F59E0B" stroke-width="1.5"/>
+
+                    <!-- Sweet Little Encouraging Floating Heart -->
+                    <path d="M96 48C96 48 99 44 102 46C105 48 102 52 96 55C90 52 87 48 90 46C93 44 96 48 96 48Z" fill="#C77DFF"/>
+                </svg>`;
+            } else {
+                // thinking illustration
+                return `<svg class="w-full h-full" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="22" y="38" width="76" height="56" rx="12" fill="#F3E8FF" stroke="#9333EA" stroke-width="3.5"/>
+                    <path d="M60 38V94" stroke="#9333EA" stroke-width="3.5"/>
+                    <path d="M30 50H52M30 60H48M30 70H52" stroke="#C084FC" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M68 50H90M68 60H84M68 70H90" stroke="#C084FC" stroke-width="3" stroke-linecap="round"/>
+                    
+                    <circle cx="60" cy="28" r="16" fill="#FF85A1"/>
+                    <circle cx="53" cy="26" r="3.5" fill="white"/>
+                    <circle cx="67" cy="26" r="3.5" fill="white"/>
+                    <circle cx="53" cy="26" r="1.8" fill="#1E1B4B"/>
+                    <circle cx="67" cy="26" r="1.8" fill="#1E1B4B"/>
+                    <path d="M57 31L60 34L63 31Z" fill="#F59E0B"/>
+                </svg>`;
+            }
+        }
+
+        function checkAnswer(selectedOpt, correctOpt, btnElement) {
+            // Disable all option buttons to evaluate single attempt per question
+            const container = document.getElementById('options-container');
+            const buttons = container.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+
+            const isCorrect = (selectedOpt === correctOpt);
+
+            if (isCorrect) {
+                playSound('correct');
+                sessionScore++;
+                currentStreak++;
+                totalStars += 5;
+                updateStarDisplay();
+
+                btnElement.classList.remove('bg-purple-50/60', 'text-purple-950');
+                btnElement.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+
+                const happyPhrase = HAPPY_PHRASES[Math.floor(Math.random() * HAPPY_PHRASES.length)];
+
+                showFeedbackModal(true, happyPhrase, `"${correctOpt}" es el adverbio correcto para esta oración. ¡Excelente!`);
+                
+                try {
+                    confetti({
+                        particleCount: 45,
+                        spread: 60,
+                        origin: { y: 0.7 }
+                    });
+                } catch(e) {}
+
+            } else {
+                playSound('incorrect');
+                currentStreak = 0;
+                btnElement.classList.remove('bg-purple-50/60');
+                btnElement.classList.add('bg-rose-500', 'text-white', 'border-rose-600', 'animate-shake');
+
+                // Highlight correct option in green so students learn from their mistake
+                buttons.forEach(b => {
+                    if (b.innerText === correctOpt) {
+                        b.classList.remove('bg-purple-50/60', 'text-purple-950');
+                        b.classList.add('bg-emerald-100', 'text-emerald-800', 'border-emerald-400', 'font-extrabold');
+                    }
+                });
+
+                const sadPhrase = SAD_PHRASES[Math.floor(Math.random() * SAD_PHRASES.length)];
+
+                showFeedbackModal(false, sadPhrase, `La opción "${selectedOpt}" es incorrecta. La respuesta correcta era "${correctOpt}".`);
+            }
+
+            document.getElementById('streak-counter').innerText = currentStreak;
+        }
+
+        function showFeedbackModal(isCorrect, title, message) {
+            const modal = document.getElementById('feedback-modal');
+            const card = document.getElementById('feedback-card');
+            const avatarContainer = document.getElementById('feedback-avatar-container');
+            const nextBtn = document.getElementById('feedback-next-btn');
+            
+            document.getElementById('feedback-title').innerText = title;
+            document.getElementById('feedback-msg').innerText = message;
+
+            if (isCorrect) {
+                avatarContainer.innerHTML = getImageElement('happy');
+                card.className = "bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full text-center card-shadow border-4 border-emerald-300 transition-all transform scale-100 opacity-100";
+                document.getElementById('feedback-title').className = "title-font text-2xl font-bold text-emerald-600 mb-2";
+                nextBtn.className = "btn-bounce w-full bg-emerald-500 hover:bg-emerald-600 text-white title-font font-bold py-3.5 px-6 rounded-2xl shadow-lg transition-all text-lg";
+                nextBtn.innerText = "¡Siguiente Ejercicio! ➔";
+                nextBtn.onclick = () => {
+                    closeFeedback();
+                    advanceQuestion();
+                };
+            } else {
+                avatarContainer.innerHTML = getImageElement('crying');
+                card.className = "bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full text-center card-shadow border-4 border-rose-300 transition-all transform scale-100 opacity-100";
+                document.getElementById('feedback-title').className = "title-font text-2xl font-bold text-rose-600 mb-2";
+                nextBtn.className = "btn-bounce w-full bg-rose-500 hover:bg-rose-600 text-white title-font font-bold py-3.5 px-6 rounded-2xl shadow-lg transition-all text-lg";
+                nextBtn.innerText = "Siguiente Ejercicio ➔";
+                nextBtn.onclick = () => {
+                    closeFeedback();
+                    advanceQuestion();
+                };
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeFeedback() {
+            document.getElementById('feedback-modal').classList.add('hidden');
+        }
+
+        function advanceQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < activeQuestions.length) {
+                loadQuestion();
+            } else {
+                finishCategory();
+            }
+        }
+
+        function finishCategory() {
+            playSound('win');
+            document.getElementById('progress-bar').style.width = '100%';
+            
+            const total = activeQuestions.length;
+            const earnedStars = sessionScore * 5;
+
+            document.getElementById('result-score').innerText = `${sessionScore} / ${total}`;
+            document.getElementById('result-stars').innerText = `+${earnedStars} ⭐`;
+
+            const stickerBox = document.getElementById('result-sticker');
+
+            if (sessionScore >= 8) {
+                stickerBox.innerHTML = getImageElement('happy');
+                document.getElementById('result-title').innerText = "¡Excelente Trabajo!";
+                document.getElementById('result-subtitle').innerText = "Demostraste un dominio fantástico de los adverbios.";
+            } else {
+                stickerBox.innerHTML = getImageElement('thinking');
+                document.getElementById('result-title').innerText = "¡Buen Intento!";
+                document.getElementById('result-subtitle').innerText = "Sigue practicando para convertirte en un experto de los adverbios.";
+            }
+
+            showScreen('results-screen');
+            
+            try {
+                confetti({
+                    particleCount: 100,
+                    spread: 100,
+                    origin: { y: 0.5 }
+                });
+            } catch(e) {}
+        }
+
+        function retryCurrentCategory() {
+            if (currentMode) {
+                startMode(currentMode);
+            } else {
+                showScreen('main-menu');
+            }
+        }
+
+        function confirmExit() {
+            if (confirm("¿Estás seguro de que deseas salir al menú principal?")) {
+                showScreen('main-menu');
+            }
+        }
+    </script>
+</body>
+</html>
